@@ -22,9 +22,6 @@ def interp(lon,beginlon,deltalon,lat,beginlat,deltalat,va):  #插值方法
 class micaps4(object):
     def __init__(self, filename):
         self.filename = filename
-        self.readdata()
-
-    def readdata(self):
         f = codecs.open(self.filename ,mode='r', encoding='GBK')
         text = f.read().strip()
         f.close()
@@ -49,12 +46,13 @@ class micaps4(object):
             for j in range(self.sumlon):
                 self.Z[i, j] = float(data[begin + i * self.sumlon + j])
 
+        lats = np.arange(self.beginlat, self.endlat + self.deltalat, self.deltalat)
+        lons = np.arange(self.beginlon, self.endlon + self.deltalon, self.deltalon)
+        self.lon, self.lat = np.meshgrid(lons, lats)    #生成数据范围的经纬度矩阵
+
 class micaps11(object):
     def __init__(self, filename):
         self.filename = filename
-        self.readdata()
-
-    def readdata(self):
         f = codecs.open(self.filename ,mode='r', encoding='GBK')
         text = f.read().strip()
         f.close()
@@ -89,6 +87,9 @@ class micaps11(object):
             for j in range(self.sumlon):
                 self.V[i, j] = float(data[vbegin + i * self.sumlon + j])
 
+        lats = np.arange(self.beginlat, self.endlat + self.deltalat, self.deltalat)
+        lons = np.arange(self.beginlon, self.endlon + self.deltalon, self.deltalon)
+        self.lon, self.lat = np.meshgrid(lons, lats)
         # for i in range(sumlon):
         #     for j in range(sumlat):
         #         Z[i, j] = math.sqrt(U[j, i] ** 2 + V[j, i] ** 2)
