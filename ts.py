@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 from matplotlib import colors
 import cmaps
 
-filename1 = 'F:/data/micaps/ecmwf_thin/CAPE/999/18051208.006'
+#filename1 = 'F:/data/micaps/ecmwf_thin/CAPE/999/18051208.006'
+filename1 = 'Y:/MICAPS/ecmwf_thin/CAPE/999/19082620.018'
 cape = micaps.micaps4(filename1)
 
 shpname1 = './shpfiles/bou2_4p.shp'
@@ -30,10 +31,10 @@ ax.set_yticks([20, 30, 40, 50])
 ax.set_title('CAPE')
 
 cm = [100, 500, 1000, 1500, 2000, 2500, 3000, 4000]
-rgb = np.loadtxt('./color/cape.rbg', delimiter='\t')
-rgb /= 255.0
+#rgb = np.loadtxt('./color/cape1.rgb', delimiter=' ')
+#rgb /= 255.0
 #icmap = colors.ListedColormap(rgb, name='my_color')
-c = ax.contourf(cape.lon, cape.lat, cape.Z, cm, extend='max', transform=ccrs.PlateCarree(), colors=rgb)
-#c = ax.contourf(cape.lon, cape.lat, cape.Z, cm, extend='max', transform=ccrs.PlateCarree(), cmap=icmap)
+#c = ax.contourf(cape.lon, cape.lat, cape.Z, cm, extend='max', transform=ccrs.PlateCarree(), colors=rgb, alpha=0.6)
+c = ax.contourf(cape.lon, cape.lat, cape.Z, cm, extend='max', transform=ccrs.PlateCarree(), cmap=cmaps.GMT_seis_r, alpha=0.4)
 fig.colorbar(c, fraction=0.04, pad=0.02, aspect=50)
 plt.show()
