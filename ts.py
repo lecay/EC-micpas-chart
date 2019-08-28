@@ -7,13 +7,13 @@ import cartopy.feature as cfeature
 import cartopy.io.shapereader as shpreader
 import matplotlib.pyplot as plt
 from matplotlib import colors
-import cmaps
 
-filename1 = 'F:/data/micaps/ecmwf_thin/CAPE/999/18051208.006'
-#filename1 = 'Y:/MICAPS/ecmwf_thin/CAPE/999/19082620.018'
-filename2 = 'F:/data/micaps/ecmwf_thin/ki/18051208.006'
+#filename1 = 'F:/data/micaps/ecmwf_thin/CAPE/999/18051208.006'
+filename1 = 'Y:/MICAPS/ecmwf_thin/CAPE/999/19082620.018'
+#filename2 = 'F:/data/micaps/ecmwf_thin/ki/18051208.006'
+filename2 = 'Y:/MICAPS/ecmwf_thin/ki/19082620.018'
 cape = micaps.micaps4(filename1)
-ki = micaps.micaps4(filename1)
+ki = micaps.micaps4(filename2)
 
 shpname1 = './shpfiles/bou2_4p.shp'
 sr1 = shpreader.Reader(shpname1)
@@ -38,7 +38,7 @@ a = ax.contourf(cape.lon, cape.lat, cape.Z, levcape, extend='max', transform=ccr
 fig.colorbar(a, fraction=0.04, pad=0.02, aspect=50)
 
 levki = [32, 35, 40]
-b = ax.contour(ki.lon, ki.lat, ki.Z, levki, transform=ccrs.PlateCarree(), colors='red', linewidths=0.5)
+b = ax.contour(ki.lon, ki.lat, ki.Z, levki, transform=ccrs.PlateCarree(), colors=['blue','red','blueviolet'], linewidths=0.8)
 ax.clabel(b, fmt='%d', inline=True, fontsize=7) 
-
+#['blue','navy','black']
 plt.show()
