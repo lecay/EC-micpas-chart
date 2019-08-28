@@ -9,16 +9,18 @@ import matplotlib.pyplot as plt
 from matplotlib import colors
 import cmaps
 
-#filename1 = 'F:/data/micaps/ecmwf_thin/CAPE/999/18051208.006'
-filename1 = 'Y:/MICAPS/ecmwf_thin/CAPE/999/19082620.018'
+filename1 = 'F:/data/micaps/ecmwf_thin/CAPE/999/18051208.006'
+#filename1 = 'Y:/MICAPS/ecmwf_thin/CAPE/999/19082620.018'
+filename2 = 'F:/data/micaps/ecmwf_thin/ki/18051208.006'
 cape = micaps.micaps4(filename1)
+ki = micaps.micaps4(filename1)
 
 shpname1 = './shpfiles/bou2_4p.shp'
-a = shpreader.Reader(shpname1)
-proshp1 = list(a.geometries())
+sr1 = shpreader.Reader(shpname1)
+proshp1 = list(sr1.geometries())
 shpname2 = './shpfiles/continents_lines.shp'
-b = shpreader.Reader(shpname2)
-proshp2 = list(b.geometries())
+sr2 = shpreader.Reader(shpname2)
+proshp2 = list(sr2.geometries())
 
 fig = plt.figure(figsize=(8.5,6), dpi=150)
 ax = plt.axes(projection=ccrs.PlateCarree(), aspect='auto')
@@ -28,13 +30,15 @@ ax.add_geometries(proshp2, ccrs.PlateCarree(), edgecolor='grey', facecolor='none
 ax.set_extent([72, 138, 15, 55], ccrs.PlateCarree())
 ax.set_xticks([80, 90, 100, 110, 120, 130])
 ax.set_yticks([20, 30, 40, 50])
-ax.set_title('CAPE')
+ax.set_title('TS')
 
-cm = [100, 500, 1000, 1500, 2000, 2500, 3000, 4000]
-#rgb = np.loadtxt('./color/cape1.rgb', delimiter=' ')
-#rgb /= 255.0
-#icmap = colors.ListedColormap(rgb, name='my_color')
-#c = ax.contourf(cape.lon, cape.lat, cape.Z, cm, extend='max', transform=ccrs.PlateCarree(), colors=rgb, alpha=0.6)
-c = ax.contourf(cape.lon, cape.lat, cape.Z, cm, extend='max', transform=ccrs.PlateCarree(), cmap=cmaps.GMT_seis_r, alpha=0.4)
-fig.colorbar(c, fraction=0.04, pad=0.02, aspect=50)
+levcape = [100, 500, 1000, 1500, 2000, 2500, 3000, 4000]
+icmap = colors.ListedColormap(np.loadtxt('./color/GMT_seis.rgb', delimiter=' '))
+a = ax.contourf(cape.lon, cape.lat, cape.Z, levcape, extend='max', transform=ccrs.PlateCarree(), cmap=icmap.reversed(), alpha=0.4)
+fig.colorbar(a, fraction=0.04, pad=0.02, aspect=50)
+
+levki = [32, 35, 40]
+b = ax.contour(ki.lon, ki.lat, ki.Z, levki, transform=ccrs.PlateCarree(), colors='red', linewidths=0.5)
+ax.clabel(b, fmt='%d', inline=True, fontsize=7) 
+
 plt.show()
