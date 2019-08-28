@@ -38,7 +38,8 @@ a = ax.contourf(cape.lon, cape.lat, cape.Z, levcape, extend='max', transform=ccr
 fig.colorbar(a, fraction=0.04, pad=0.02, aspect=50)
 
 levki = [32, 35, 40]
-b = ax.contour(ki.lon, ki.lat, ki.Z, levki, transform=ccrs.PlateCarree(), colors=['blue','red','blueviolet'], linewidths=0.8)
+b = ax.contour(ki.lon, ki.lat, ki.Z, levki, transform=ccrs.PlateCarree(), colors=['blue','red','black'], linewidths=0.8)
 ax.clabel(b, fmt='%d', inline=True, fontsize=7) 
+
 #['blue','navy','black']
 plt.show()
