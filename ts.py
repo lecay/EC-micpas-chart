@@ -10,10 +10,10 @@ import matplotlib.pyplot as plt
 from matplotlib import colors
 import matplotlib.font_manager as fm
 
-#filename1 = 'F:/data/micaps/ecmwf_thin/CAPE/999/18051208.024'
-#filename2 = 'F:/data/micaps/ecmwf_thin/ki/18051208.024'
-filename1 = 'Y:/MICAPS/ecmwf_thin/CAPE/999/19083020.021'
-filename2 = 'Y:/MICAPS/ecmwf_thin/ki/19083020.021'
+filename1 = 'F:/data/micaps/ecmwf_thin/CAPE/999/18051208.006'
+filename2 = 'F:/data/micaps/ecmwf_thin/ki/18051208.006'
+#filename1 = 'Y:/MICAPS/ecmwf_thin/CAPE/999/19083020.021'
+#filename2 = 'Y:/MICAPS/ecmwf_thin/ki/19083020.021'
 intimestr = '20'+filename1[-12:-4]
 dt = int(filename1[-3:])
 intime = datetime.datetime.strptime(intimestr, '%Y%m%d%H') #初始场时间
@@ -42,7 +42,7 @@ font = fm.FontProperties(fname=r"C:/Windows/Fonts/msyh.ttc")
 ax.set_title('EC CAPE(填色)、K指数(等值线)', loc='left', fontproperties=font)
 ax.set_title('(+%02dh) %s (CST)' % (dt, ftime.strftime('%Y/%m/%d %H')), loc='right', fontsize=9)
 datarange = (cape.endlat, cape.beginlat, cape.beginlon, cape.endlon, ki.endlat, ki.beginlat, ki.beginlon, ki.endlon)
-ax.annotate('*数据范围：CAPE %d~%dN %d~%dE | K指数 %d~%dN %d~%dE'% datarange, (0.13,0.07), xycoords='figure fraction', fontproperties=font, fontsize=6, color='grey')
+ax.annotate('*数据范围：CAPE %d~%dN %d~%dE | K指数 %d~%dN %d~%dE'% datarange, (0.05,0.02), xycoords='figure fraction', fontproperties=font, fontsize=6, color='grey')
 
 
 levcape = [100, 500, 1000, 1500, 2000, 3000, 4000]
@@ -55,6 +55,7 @@ levki = [32, 35, 40]
 b = ax.contour(ki.lon, ki.lat, ki.Z, levki, transform=ccrs.PlateCarree(), colors=['b','r','black'], linewidths=0.8, alpha=0.9)
 ax.clabel(b, fmt='%d', inline=True, fontsize=7) 
 
-
-#['blue','navy','black']
+plt.subplots_adjust(left = 0.05, right = 0.97, bottom = 0.06, top = 0.94,  hspace = 0, wspace = 0)
+#plt.subplots_adjust(top = 1, bottom = 0, right = 1, left = 0, hspace = 0, wspace = 0)
+plt.savefig('./'+filename1[-12:-4]+'/ts'+filename1[-12:-4]+'.'+filename1[-3:]+'.png')
 plt.show()
