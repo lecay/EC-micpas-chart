@@ -10,10 +10,10 @@ import matplotlib.pyplot as plt
 from matplotlib import colors
 import matplotlib.font_manager as fm
 
-filename1 = 'F:/data/micaps/ecmwf_thin/CAPE/999/18051208.006'
-filename2 = 'F:/data/micaps/ecmwf_thin/ki/18051208.006'
-#filename1 = 'Y:/MICAPS/ecmwf_thin/CAPE/999/19083020.021'
-#filename2 = 'Y:/MICAPS/ecmwf_thin/ki/19083020.021'
+#filename1 = 'F:/data/micaps/ecmwf_thin/CAPE/999/18051208.006'
+#filename2 = 'F:/data/micaps/ecmwf_thin/ki/18051208.006'
+filename1 = 'Y:/MICAPS/ecmwf_thin/CAPE/999/19083020.021'
+filename2 = 'Y:/MICAPS/ecmwf_thin/ki/19083020.021'
 intimestr = '20'+filename1[-12:-4]
 dt = int(filename1[-3:])
 intime = datetime.datetime.strptime(intimestr, '%Y%m%d%H') #初始场时间
@@ -33,10 +33,21 @@ ax = plt.axes(projection=ccrs.PlateCarree(), aspect='auto')
 ax.add_feature(cfeature.LAKES, alpha=1)
 ax.add_geometries(proshp1, ccrs.PlateCarree(), edgecolor='dimgrey', facecolor='none', alpha=1, linewidth=0.5)
 ax.add_geometries(proshp2, ccrs.PlateCarree(), edgecolor='dimgrey', facecolor='none', alpha=1, linewidth=0.5)
-ax.set_extent([72, 138, 15, 55], ccrs.PlateCarree())
-#ax.set_extent([104, 124, 17, 30], ccrs.PlateCarree()) #华南
-ax.set_xticks([80, 90, 100, 110, 120, 130])
-ax.set_yticks([20, 30, 40, 50])
+# ax.set_extent([72, 138, 15, 55], ccrs.PlateCarree())
+# ax.set_xticks([80, 90, 100, 110, 120, 130])
+# ax.set_yticks([20, 30, 40, 50])
+# ax.set_extent([104, 124, 17, 30], ccrs.PlateCarree()) #华南
+# ax.set_xticks([105, 110, 115, 120])
+# ax.set_yticks([20, 25, 30])
+# ax.set_extent([111, 136, 38, 54], ccrs.PlateCarree()) #东北
+# ax.set_xticks([115, 120, 125, 130, 135])
+# ax.set_yticks([40, 45, 50])
+# ax.set_extent([107, 123.5, 33, 42.5], ccrs.PlateCarree()) #华北
+# ax.set_xticks([110, 115, 120])
+# ax.set_yticks([35, 40])
+ax.set_extent([108, 124, 25.5, 35.5], ccrs.PlateCarree()) #华东华中
+ax.set_xticks([110, 115, 120])
+ax.set_yticks([30, 35])
 ax.tick_params(direction='in', pad=2, labelsize=8)
 font = fm.FontProperties(fname=r"C:/Windows/Fonts/msyh.ttc")
 ax.set_title('EC CAPE(填色)、K指数(等值线)', loc='left', fontproperties=font)
@@ -56,6 +67,5 @@ b = ax.contour(ki.lon, ki.lat, ki.Z, levki, transform=ccrs.PlateCarree(), colors
 ax.clabel(b, fmt='%d', inline=True, fontsize=7) 
 
 plt.subplots_adjust(left = 0.05, right = 0.97, bottom = 0.06, top = 0.94,  hspace = 0, wspace = 0)
-#plt.subplots_adjust(top = 1, bottom = 0, right = 1, left = 0, hspace = 0, wspace = 0)
-plt.savefig('./'+filename1[-12:-4]+'/ts'+filename1[-12:-4]+'.'+filename1[-3:]+'.png')
+#plt.savefig('./'+filename1[-12:-4]+'/ts'+filename1[-12:-4]+'.'+filename1[-3:]+'.png')
 plt.show()
