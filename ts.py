@@ -11,10 +11,10 @@ import matplotlib.pyplot as plt
 from matplotlib import colors
 import matplotlib.font_manager as fm
 
-filename1 = 'F:/data/micaps/ecmwf_thin/CAPE/999/18051208.006'
-filename2 = 'F:/data/micaps/ecmwf_thin/ki/18051208.006'
-#filename1 = 'Y:/MICAPS/ecmwf_thin/CAPE/999/19083020.021'
-#filename2 = 'Y:/MICAPS/ecmwf_thin/ki/19083020.021'
+# filename1 = 'F:/data/micaps/ecmwf_thin/CAPE/999/18051208.006'
+# filename2 = 'F:/data/micaps/ecmwf_thin/ki/18051208.006'
+filename1 = 'Y:/MICAPS/ecmwf_thin/CAPE/999/19090320.021'
+filename2 = 'Y:/MICAPS/ecmwf_thin/ki/19090320.021'
 intimestr = '20'+filename1[-12:-4]
 dt = int(filename1[-3:])
 intime = datetime.datetime.strptime(intimestr, '%Y%m%d%H') #初始场时间
@@ -62,8 +62,9 @@ ax.set_title('(+%02dh) %s (CST)' % (dt, ftime.strftime('%Y/%m/%d %H')), loc='rig
 datarange = (cape.endlat, cape.beginlat, cape.beginlon, cape.endlon, ki.endlat, ki.beginlat, ki.beginlon, ki.endlon)
 ax.annotate('*数据范围：CAPE %d~%dN %d~%dE | K指数 %d~%dN %d~%dE'% datarange, (0.05,0.02), xycoords='figure fraction', fontproperties=font, fontsize=6, color='grey')
 
-sta = pd.read_csv('./station.txt', header=None, sep=r'[\s]+', engine='python', names=['name','lon','lat'])
-ax.plot(sta['lon'], sta['lat'], marker='+', color='dimgrey', markersize=3, linestyle='', transform=ccrs.PlateCarree())
+sta = pd.read_csv('./station.txt', header=None, sep=r'[\s]+', engine='python', names=['name','lon','lat','grade'])
+mainsta = sta[sta.grade==1]
+ax.plot(mainsta['lon'], mainsta['lat'], marker='.', color='dimgrey', markersize=2, linestyle='', transform=ccrs.PlateCarree())
 
 levcape = [100, 500, 1000, 1500, 2000, 3000, 4000]
 icmap = colors.ListedColormap(np.loadtxt('./color/GMT_seis.rgb', delimiter=' '))
