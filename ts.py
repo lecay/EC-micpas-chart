@@ -3,6 +3,7 @@
 import micaps
 import datetime
 import numpy as np
+import pandas as pd
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.shapereader as shpreader
@@ -10,10 +11,10 @@ import matplotlib.pyplot as plt
 from matplotlib import colors
 import matplotlib.font_manager as fm
 
-#filename1 = 'F:/data/micaps/ecmwf_thin/CAPE/999/18051208.006'
-#filename2 = 'F:/data/micaps/ecmwf_thin/ki/18051208.006'
-filename1 = 'Y:/MICAPS/ecmwf_thin/CAPE/999/19083020.021'
-filename2 = 'Y:/MICAPS/ecmwf_thin/ki/19083020.021'
+filename1 = 'F:/data/micaps/ecmwf_thin/CAPE/999/18051208.006'
+filename2 = 'F:/data/micaps/ecmwf_thin/ki/18051208.006'
+#filename1 = 'Y:/MICAPS/ecmwf_thin/CAPE/999/19083020.021'
+#filename2 = 'Y:/MICAPS/ecmwf_thin/ki/19083020.021'
 intimestr = '20'+filename1[-12:-4]
 dt = int(filename1[-3:])
 intime = datetime.datetime.strptime(intimestr, '%Y%m%d%H') #初始场时间
@@ -33,9 +34,9 @@ ax = plt.axes(projection=ccrs.PlateCarree(), aspect='auto')
 ax.add_feature(cfeature.LAKES, alpha=1)
 ax.add_geometries(proshp1, ccrs.PlateCarree(), edgecolor='dimgrey', facecolor='none', alpha=1, linewidth=0.5)
 ax.add_geometries(proshp2, ccrs.PlateCarree(), edgecolor='dimgrey', facecolor='none', alpha=1, linewidth=0.5)
-# ax.set_extent([72, 138, 15, 55], ccrs.PlateCarree())
-# ax.set_xticks([80, 90, 100, 110, 120, 130])
-# ax.set_yticks([20, 30, 40, 50])
+ax.set_extent([72, 138, 15, 55], ccrs.PlateCarree())
+ax.set_xticks([80, 90, 100, 110, 120, 130])
+ax.set_yticks([20, 30, 40, 50])
 # ax.set_extent([104, 124, 17, 30], ccrs.PlateCarree()) #华南
 # ax.set_xticks([105, 110, 115, 120])
 # ax.set_yticks([20, 25, 30])
@@ -45,9 +46,15 @@ ax.add_geometries(proshp2, ccrs.PlateCarree(), edgecolor='dimgrey', facecolor='n
 # ax.set_extent([107, 123.5, 33, 42.5], ccrs.PlateCarree()) #华北
 # ax.set_xticks([110, 115, 120])
 # ax.set_yticks([35, 40])
-ax.set_extent([108, 124, 25.5, 35.5], ccrs.PlateCarree()) #华东华中
-ax.set_xticks([110, 115, 120])
-ax.set_yticks([30, 35])
+# ax.set_extent([108, 124, 25.5, 35.5], ccrs.PlateCarree()) #华东华中
+# ax.set_xticks([110, 115, 120])
+# ax.set_yticks([30, 35])
+# ax.set_extent([95, 113, 21, 33.5], ccrs.PlateCarree()) #西南
+# ax.set_xticks([95, 100, 105, 110])
+# ax.set_yticks([25, 30])
+# ax.set_extent([73.5, 110, 30, 51], ccrs.PlateCarree()) #西北
+# ax.set_xticks([75, 80, 85, 90, 95, 100, 105, 110])
+# ax.set_yticks([30, 35, 40, 45, 50])
 ax.tick_params(direction='in', pad=2, labelsize=8)
 font = fm.FontProperties(fname=r"C:/Windows/Fonts/msyh.ttc")
 ax.set_title('EC CAPE(填色)、K指数(等值线)', loc='left', fontproperties=font)
@@ -55,6 +62,8 @@ ax.set_title('(+%02dh) %s (CST)' % (dt, ftime.strftime('%Y/%m/%d %H')), loc='rig
 datarange = (cape.endlat, cape.beginlat, cape.beginlon, cape.endlon, ki.endlat, ki.beginlat, ki.beginlon, ki.endlon)
 ax.annotate('*数据范围：CAPE %d~%dN %d~%dE | K指数 %d~%dN %d~%dE'% datarange, (0.05,0.02), xycoords='figure fraction', fontproperties=font, fontsize=6, color='grey')
 
+sta = pd.read_csv('./station.txt', header=None, sep=r'[\s]+', engine='python', names=['name','lon','lat'])
+ax.plot(sta['lon'], sta['lat'], marker='+', color='dimgrey', markersize=3, linestyle='', transform=ccrs.PlateCarree())
 
 levcape = [100, 500, 1000, 1500, 2000, 3000, 4000]
 icmap = colors.ListedColormap(np.loadtxt('./color/GMT_seis.rgb', delimiter=' '))
