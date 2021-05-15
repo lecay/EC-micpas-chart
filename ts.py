@@ -5,16 +5,16 @@ import datetime
 import numpy as np
 import pandas as pd
 import cartopy.crs as ccrs
-import cartopy.feature as cfeature
+#import cartopy.feature as cfeature
 import cartopy.io.shapereader as shpreader
 import matplotlib.pyplot as plt
 from matplotlib import colors
 import matplotlib.font_manager as fm
 
-# filename1 = 'F:/data/micaps/ecmwf_thin/CAPE/999/18051208.006'
-# filename2 = 'F:/data/micaps/ecmwf_thin/ki/18051208.006'
-filename1 = 'Y:/MICAPS/ecmwf_thin/CAPE/999/19090320.021'
-filename2 = 'Y:/MICAPS/ecmwf_thin/ki/19090320.021'
+filename1 = 'F:/data/micaps/ecmwf_thin/CAPE/999/18051208.006'
+filename2 = 'F:/data/micaps/ecmwf_thin/ki/18051208.006'
+# filename1 = 'Y:/MICAPS/ecmwf_thin/CAPE/999/19090320.021'
+# filename2 = 'Y:/MICAPS/ecmwf_thin/ki/19090320.021'
 intimestr = '20'+filename1[-12:-4]
 dt = int(filename1[-3:])
 intime = datetime.datetime.strptime(intimestr, '%Y%m%d%H') #初始场时间
@@ -31,7 +31,7 @@ proshp2 = list(sr2.geometries())
 
 fig = plt.figure(figsize=(8.5,6), dpi=150)
 ax = plt.axes(projection=ccrs.PlateCarree(), aspect='auto')
-ax.add_feature(cfeature.LAKES, alpha=1)
+#ax.add_feature(cfeature.LAKES, alpha=1)
 ax.add_geometries(proshp1, ccrs.PlateCarree(), edgecolor='dimgrey', facecolor='none', alpha=1, linewidth=0.5)
 ax.add_geometries(proshp2, ccrs.PlateCarree(), edgecolor='dimgrey', facecolor='none', alpha=1, linewidth=0.5)
 ax.set_extent([72, 138, 15, 55], ccrs.PlateCarree())
@@ -58,7 +58,7 @@ ax.set_yticks([20, 30, 40, 50])
 ax.tick_params(direction='in', pad=2, labelsize=8)
 font = fm.FontProperties(fname=r"C:/Windows/Fonts/msyh.ttc")
 ax.set_title('EC CAPE(填色)、K指数(等值线)', loc='left', fontproperties=font)
-ax.set_title('(+%02dh) %s (CST)' % (dt, ftime.strftime('%Y/%m/%d %H')), loc='right', fontsize=9)
+ax.set_title('%s  (+%02dh) %s (CST)' % (intimestr, dt, ftime.strftime('%Y/%m/%d %H')), loc='right', fontsize=9)
 datarange = (cape.endlat, cape.beginlat, cape.beginlon, cape.endlon, ki.endlat, ki.beginlat, ki.beginlon, ki.endlon)
 ax.annotate('*数据范围：CAPE %d~%dN %d~%dE | K指数 %d~%dN %d~%dE'% datarange, (0.05,0.02), xycoords='figure fraction', fontproperties=font, fontsize=6, color='grey')
 
